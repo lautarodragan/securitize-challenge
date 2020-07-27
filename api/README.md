@@ -41,4 +41,6 @@ For the balance we can use the [get address eth balance](https://api.etherscan.i
 
 `:pair` can be `usd-eth` or `eur-eth`.
 
+For these we're just gonna use a mutable variable, stored at module-level, to keep things simple.
 
+In practice we'll want to store these in a DB, append-only, along with the date of the exchange rate, and probably a provider for the exchange rate too.
