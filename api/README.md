@@ -35,6 +35,12 @@ in the wallet wallet in the selected currency using the exchange rates from step
 
 For the balance we can use the [get address eth balance](https://api.etherscan.io/api?module=account&action=balance&address=0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae&tag=latest&apikey=YourApiKeyToken) Etherscan api endpoint.
 
+### Is-Old Strategy
+
+For the `is-old` endpoint, we can use the [list normal transactions](http://api.etherscan.io/api?module=account&action=txlist&address=0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae&startblock=0&endblock=99999999&sort=asc&apikey=YourApiKeyToken) and the [list internal transactions](https://api.etherscan.io/api?module=account&action=txlistinternal&startblock=0&endblock=2702578&page=1&offset=10&sort=asc&apikey=YourApiKeyToken) endpoints of the Etherscan API, and check the `.result[n].timeStamp` property.
+
+Since we only care about the existence of a transaction that matches our criteria and not the details of the transactions themselves, we can call [get block number by timestamp](https://api.etherscan.io/api?module=block&action=getblocknobytime&timestamp=1578638524&closest=before&apikey=YourApiKeyToken) with a `now - 1 year` timestamp and the `closest` parameter set to `before` and pass the retrieved block number to the `endblock` parameter of the `list transactions` endpoint.
+
 ## Exchange Rates 
 
 - `GET /rates/:pair`
