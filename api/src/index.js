@@ -1,7 +1,7 @@
 const apiKey = 'NSZCD6S4TKVWRS13PMQFMVTNP6H7NAGHUY'
 
 const Koa = require('koa')
-const KoaRouter = require('koa-router')
+const KoaRouter = require('@koa/router')
 const KoaBodyparser = require('koa-bodyparser')
 
 const router = new KoaRouter()
