@@ -10,3 +10,23 @@ stored in-memory / hardcoded (no need for a DB)
 
 1. An endpoint that gets a currency (Euro or US Dollar) and returns the balance of the ETH
 in the wallet wallet in the selected currency using the exchange rates from step 2.
+
+# Endpoints
+
+## Wallet
+
+- `GET /wallet/is-old`
+
+- `GET /wallet/balance?currency=:currency`
+
+`:currency` can be `usd` or `eur`.
+
+## Exchange Rates 
+
+- `GET /rates/:pair`
+
+- `PUT /rates/:pair`
+
+`:pair` can be `usd-eth` or `eur-eth`.
+
+
