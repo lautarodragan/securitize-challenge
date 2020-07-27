@@ -1,10 +1,10 @@
 const apiKey = 'NSZCD6S4TKVWRS13PMQFMVTNP6H7NAGHUY'
 
-const Koa = require('koa')
-const KoaRouter = require('@koa/router')
-const KoaBodyparser = require('koa-bodyparser')
+import Koa from 'koa'
+import KoaRouter from'@koa/router'
+import KoaBodyparser from 'koa-bodyparser'
 
-const { Etherscan } = require('./etherscan')
+import { Etherscan } from './etherscan.js'
 
 const router = new KoaRouter()
 
