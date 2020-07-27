@@ -81,10 +81,12 @@ router.get('/wallets/:address', async (ctx, next) => {
   }
 
   const { result: balanceInGwei } = await etherscan.getBalance(address)
+  const rate = exchangeRates[`${currency}-eth`]
 
   ctx.status = 200
   ctx.body = JSON.stringify({
     balanceInGwei,
+    rate,
   })
 })
 
