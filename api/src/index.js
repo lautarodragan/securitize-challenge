@@ -98,17 +98,27 @@ router.get('/wallets/:address/balance', async (ctx, next) => {
 router.get('/wallets/:address/is-old', async (ctx, next) => {
   const { address } = ctx.params
 
-  console.log('GET /wallet/:address/is-old', address)
+  console.log('GET /wallet/:address/is-old', { address })
 
   const timestamp = Math.floor(luxon.DateTime.utc().minus({ year: 1 }).toMillis() / 1000)
-  const { result: blockNumber } = await etherscan.getBlockNumberByTimestamp(timestamp)
+  const { result: endblock } = await etherscan.getBlockNumberByTimestamp(timestamp)
 
-  console.log('luxon', timestamp, blockNumber)
+  console.log('GET /wallet/:address/is-old', { address, timestamp, endblock })
+
+  const transactionsResponse = await etherscan.getNormalTransactions({
+    address,
+    endblock,
+  })
+
+  const isOld = transactionsResponse.status === '1' && transactionsResponse.result.length >= 1
+  const transactions = transactionsResponse.result.map(({ hash, blockNumber, timeStamp }) => ({ hash, blockNumber, timeStamp }))
+
+  console.log('GET /wallet/:address/is-old', { address, timestamp, endblock, transactions })
 
   ctx.status = 200
-  ctx.body = JSON.stringify({
-    blockNumber,
-  })
+  ctx.body = {
+    isOld,
+  }
 })
 
 const koa = new Koa()
