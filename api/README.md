@@ -1,7 +1,9 @@
 # Objective
+
 Build a generic platform that return analytics on an ethereum wallets
 
 # Tools
+
 To get information on ethereum wallet please use https://etherscan.io/apis.
 
 API Key: `NSZCD6S4TKVWRS13PMQFMVTNP6H7NAGHUY`
