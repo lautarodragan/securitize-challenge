@@ -1,6 +1,6 @@
 # Objective
 
-Build a generic platform that return analytics on an ethereum wallets
+Build a generic platform that return analytics on Ethereum wallets.
 
 # Tools
 
