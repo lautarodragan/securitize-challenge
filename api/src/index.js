@@ -4,12 +4,16 @@ const Koa = require('koa')
 const KoaRouter = require('@koa/router')
 const KoaBodyparser = require('koa-bodyparser')
 
+const { Etherscan } = require('./etherscan')
+
 const router = new KoaRouter()
 
 const ratePairUsdEth = 'usd-eth'
 const ratePairEurEth = 'eur-eth'
 
 const ratePairs = [ratePairUsdEth, ratePairEurEth]
+
+const etherscan = Etherscan({ apiKey })
 
 const exchangeRates = {
   [ratePairUsdEth]: 300,
@@ -56,6 +60,18 @@ router.put('/rates/:id', (ctx, next) => {
   exchangeRates[id] = rate
 
   ctx.status = 201
+})
+
+router.get('/wallets/:address', async (ctx, next) => {
+  const { address } = ctx.params
+  console.log('GET /wallet/:address', address)
+
+  const balance = await etherscan.getBalance(address)
+
+  ctx.status = 200
+  ctx.body = JSON.stringify({
+    balance,
+  })
 })
 
 const koa = new Koa()
