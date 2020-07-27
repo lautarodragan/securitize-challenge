@@ -27,7 +27,7 @@ in the wallet wallet in the selected currency using the exchange rates from step
 
 - `GET /wallets/:address/is-old`
 
-- `GET /wallet/:address/balance?currency=:currency`
+- `GET /wallets/:address/balance?currency=:currency`
 
 `:currency` can be `usd` or `eur`.
 
