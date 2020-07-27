@@ -1,5 +1,6 @@
 const apiKey = 'NSZCD6S4TKVWRS13PMQFMVTNP6H7NAGHUY'
 
+import Big from 'big.js'
 import Koa from 'koa'
 import KoaRouter from'@koa/router'
 import KoaBodyparser from 'koa-bodyparser'
@@ -16,7 +17,7 @@ const ratePairs = [ratePairUsdEth, ratePairEurEth]
 const etherscan = Etherscan({ apiKey })
 
 const exchangeRates = {
-  [ratePairUsdEth]: 300,
+  [ratePairUsdEth]: 324.35,
   [ratePairEurEth]: 250,
 }
 
@@ -80,13 +81,16 @@ router.get('/wallets/:address', async (ctx, next) => {
     return
   }
 
-  const { result: balanceInGwei } = await etherscan.getBalance(address)
+  const { result: balanceInWei } = await etherscan.getBalance(address)
   const rate = exchangeRates[`${currency}-eth`]
+  const balance = Big(balanceInWei).times(rate).div(1e9).div(1e9).toFixed(2)
 
   ctx.status = 200
   ctx.body = JSON.stringify({
-    balanceInGwei,
+    balanceInWei,
     rate,
+    balance,
+    currency,
   })
 })
 
