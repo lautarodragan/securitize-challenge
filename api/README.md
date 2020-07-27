@@ -31,6 +31,8 @@ in the wallet wallet in the selected currency using the exchange rates from step
 
 `:currency` can be `usd` or `eur`.
 
+For the balance we can use the [get address eth balance](https://api.etherscan.io/api?module=account&action=balance&address=0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae&tag=latest&apikey=YourApiKeyToken) Etherscan api endpoint.
+
 ## Exchange Rates 
 
 - `GET /rates/:pair`
