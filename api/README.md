@@ -55,4 +55,4 @@ In practice we'll want to store these in a DB, append-only, along with the date 
 
 # Note on Wallet vs Address
 
-The challenge states we want to offer analytics of an Ethereum wallet. In practice, wallets are usually a collection of addresses. The challenge is a bit vague on this matter, so I'm going to assume _wallet_ means _address_ in this context, for the sake of this challenge. 
+The challenge states we want to offer analytics of an Ethereum _wallet_. In practice, wallets are usually a collection of _addresses_. The challenge is a bit vague on this matter, so I'm going to assume _wallet_ means _address_ in this context, for the sake of this challenge. 
