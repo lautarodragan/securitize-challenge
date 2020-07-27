@@ -35,6 +35,29 @@ router.get('/rates/:id', (ctx, next) => {
 
 })
 
+router.put('/rates/:id', (ctx, next) => {
+  const { id } = ctx.params
+  console.log('PUT /rates/:id', id, ctx.request.body)
+
+  if (!ratePairs.includes(id)) {
+    ctx.status = 422
+    ctx.body = `Unknown exchange rate pair '${id}'. Supported pairs are [${ratePairs.join()}]`
+    return
+  }
+
+  if (!ctx.request.body || !ctx.request.body.rate) {
+    ctx.status = 422
+    ctx.body = `Rate field in body not present.`
+    return
+  }
+
+  const { rate } = ctx.request.body
+
+  exchangeRates[id] = rate
+
+  ctx.status = 201
+})
+
 const koa = new Koa()
   .use(KoaBodyparser())
   .use(router.routes())
