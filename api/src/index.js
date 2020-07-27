@@ -4,6 +4,7 @@ import Big from 'big.js'
 import Koa from 'koa'
 import KoaRouter from'@koa/router'
 import KoaBodyparser from 'koa-bodyparser'
+import luxon from 'luxon'
 
 import { Etherscan } from './etherscan.js'
 
@@ -69,7 +70,7 @@ router.put('/rates/:id', (ctx, next) => {
   ctx.status = 201
 })
 
-router.get('/wallets/:address', async (ctx, next) => {
+router.get('/wallets/:address/balance', async (ctx, next) => {
   const { address } = ctx.params
   const { currency = Currencies.usd } = ctx.query
 
@@ -91,6 +92,22 @@ router.get('/wallets/:address', async (ctx, next) => {
     rate,
     balance,
     currency,
+  })
+})
+
+router.get('/wallets/:address/is-old', async (ctx, next) => {
+  const { address } = ctx.params
+
+  console.log('GET /wallet/:address/is-old', address)
+
+  const timestamp = Math.floor(luxon.DateTime.utc().minus({ year: 1 }).toMillis() / 1000)
+  const { result: blockNumber } = await etherscan.getBlockNumberByTimestamp(timestamp)
+
+  console.log('luxon', timestamp, blockNumber)
+
+  ctx.status = 200
+  ctx.body = JSON.stringify({
+    blockNumber,
   })
 })
 
