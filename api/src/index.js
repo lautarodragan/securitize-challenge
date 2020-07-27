@@ -20,6 +20,12 @@ const exchangeRates = {
   [ratePairEurEth]: 250,
 }
 
+// enum Currencies...
+const Currencies = {
+  usd: 'usd',
+  eur: 'eur',
+}
+
 router.get('/rates/:id', (ctx, next) => {
   const { id } = ctx.params
   console.log('GET /rates/:id', id)
@@ -45,7 +51,7 @@ router.put('/rates/:id', (ctx, next) => {
 
   if (!ratePairs.includes(id)) {
     ctx.status = 422
-    ctx.body = `Unknown exchange rate pair '${id}'. Supported pairs are [${ratePairs.join()}]`
+    ctx.body = `Unexpected exchange rate pair '${id}'. Supported pairs are [${ratePairs.join()}]`
     return
   }
 
@@ -64,13 +70,21 @@ router.put('/rates/:id', (ctx, next) => {
 
 router.get('/wallets/:address', async (ctx, next) => {
   const { address } = ctx.params
-  console.log('GET /wallet/:address', address)
+  const { currency = Currencies.usd } = ctx.query
 
-  const balance = await etherscan.getBalance(address)
+  console.log('GET /wallet/:address', address, currency)
+
+  if (![Currencies.usd, Currencies.eur].includes(currency)) {
+    ctx.status = 422
+    ctx.body = `Unexpected currency ${currency}. Supported currencies are [${Object.values(Currencies)}]`
+    return
+  }
+
+  const { result: balanceInGwei } = await etherscan.getBalance(address)
 
   ctx.status = 200
   ctx.body = JSON.stringify({
-    balance,
+    balanceInGwei,
   })
 })
 
