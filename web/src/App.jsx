@@ -1,26 +1,44 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Button, TextField } from '@material-ui/core'
+import React, { useState, useEffect } from 'react'
 
-function App() {
+import './App.css'
+
+export function App() {
+  const [address, setAddress] = useState()
+  const [rateUsd, setRateUsd] = useState('?')
+  const [rateEur, setRateEur] = useState('?')
+
+  const onGetRates = () => {
+    fetch(`http://localhost:8000/rates/usd-eth`).then(_ => _.json()).then(setRateUsd)
+    fetch(`http://localhost:8000/rates/eur-eth`).then(_ => _.json()).then(setRateEur)
+  }
+
+  useEffect(() => {
+    onGetRates()
+  }, [])
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        Wallet Analytics
       </header>
+      <main>
+        <section>
+          <TextField placeholder="0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae" />
+        </section>
+        <section>
+          <h2>Rates</h2>
+          <Button color="primary" onClick={onGetRates}>Refresh Rates</Button>
+          <section>
+            <h3>USD-ETH</h3>
+            <label>1 eth = {rateUsd.exchangeRate} usd</label>
+          </section>
+          <section>
+            <h3>EUR-ETH</h3>
+            <label>1 eth = {rateEur.exchangeRate} eur</label>
+          </section>
+        </section>
+      </main>
     </div>
-  );
+  )
 }
-
-export default App;
