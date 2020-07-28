@@ -133,4 +133,4 @@ const koa = new Koa()
   .use(router.routes())
   .use(router.allowedMethods())
 
-const server = koa.listen(8000, '0.0.0.0')
+const server = koa.listen(process.env.PORT || 8000, '0.0.0.0')
