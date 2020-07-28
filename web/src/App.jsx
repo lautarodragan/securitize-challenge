@@ -120,11 +120,10 @@ const AccountAgeYoung = () => (
 
 const EthPrice = ({ fiatCurrency, onFiatCurrencyChange, exchangeRate, onEditExchangeRate }) => {
   const [edit, setEdit] = useState(false)
-  const [exchangeRateEdit, setExchangeRateEdit] = useState('')
 
-  const onEditExchangeRateWrapper = () => {
+  const onEditExchangeRateWrapper = (exchangeRate) => {
     setEdit(false)
-    onEditExchangeRate(fiatCurrency, exchangeRateEdit)
+    onEditExchangeRate(fiatCurrency, exchangeRate)
   }
 
   const Display = () => (
@@ -141,32 +140,32 @@ const EthPrice = ({ fiatCurrency, onFiatCurrencyChange, exchangeRate, onEditExch
     </>
   )
 
-  const Edit = () => (
-    <>
-      <TextField
-        onChange={(event) => setExchangeRateEdit(event.currentTarget.value)}
-        value={exchangeRateEdit}
-        InputProps={{
-          startAdornment: <InputAdornment position="start">$</InputAdornment>,
-        }}
-      />
-      <span className="currency">{fiatCurrency}</span>
-      <Button onClick={onEditExchangeRateWrapper}><DoneRoundedIcon/></Button>
-      <Button onClick={() => setEdit(false)}><CloseIcon/></Button>
-    </>
-  )
-
-  useEffect(() => {
-    setExchangeRateEdit(exchangeRate)
-  }, [exchangeRate])
-
   return (
     <section className="eth-price">
       <h3>ETH Price</h3>
       <main>
         { !edit && <Display/> }
-        { edit && <Edit/> }
+        { edit && <EthPriceEdit fiatCurrency={fiatCurrency} initialExchangeRate={exchangeRate} onAccept={onEditExchangeRateWrapper} onCancel={() => setEdit(false)} /> }
       </main>
     </section>
+  )
+}
+
+const EthPriceEdit = ({ fiatCurrency, initialExchangeRate, onAccept, onCancel }) => {
+  const [exchangeRate, setExchangeRate] = useState(initialExchangeRate)
+
+  return (
+    <>
+      <TextField
+        onChange={(event) => setExchangeRate(event.currentTarget.value)}
+        value={exchangeRate}
+        InputProps={{
+          startAdornment: <InputAdornment position="start">$</InputAdornment>,
+        }}
+      />
+      <span className="currency">{fiatCurrency}</span>
+      <Button onClick={() => onAccept(exchangeRate)}><DoneRoundedIcon/></Button>
+      <Button onClick={onCancel}><CloseIcon/></Button>
+    </>
   )
 }
