@@ -32,7 +32,7 @@ export function App() {
       <main>
         <Container>
           { !address && <SignIn onSignIn={setAddress} /> }
-          <AccountInfo isOld={addressIsOld?.isOld} balance={addressBalance?.balance} />
+          { addressBalance && addressIsOld && <AccountInfo isOld={addressIsOld.isOld} balance={addressBalance.balance} /> }
           <Paper>
             <h3>ETH Price</h3>
             <div>{rateUsd.exchangeRate} USD</div>
