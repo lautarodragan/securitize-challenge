@@ -55,7 +55,7 @@ export function App() {
 
     fetch(`${apiUrl}/wallets/${address}/is-old`).then(_ => _.json()).then(setAddressIsOld)
     fetch(`${apiUrl}/wallets/${address}/balance?currency=${fiatCurrency}`).then(_ => _.json()).then(setAddressBalance)
-  }, [address, fiatCurrency])
+  }, [address, fiatCurrency, rateUsd, rateEur])
 
   return (
     <div className="App">
