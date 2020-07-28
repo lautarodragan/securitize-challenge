@@ -91,14 +91,14 @@ const AccountAgeYoung = () => (
 )
 
 const EthPrice = ({ fiatCurrency, onFiatCurrencyChange, exchangeRate }) => (
-  <section>
+  <section className="eth-price">
     <h3>ETH Price</h3>
-    <div className="eth-price">
+    <main>
       <span>{exchangeRate}</span>
       <Select onChange={(event) => onFiatCurrencyChange(event.target.value)} value={fiatCurrency}>
         <MenuItem value='usd'>USD</MenuItem>
         <MenuItem value='eur'>EUR</MenuItem>
       </Select>
-    </div>
+    </main>
   </section>
 )

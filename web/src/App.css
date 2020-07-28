@@ -28,13 +28,13 @@
   align-items: center;
 }
 
-.eth-price {
+.eth-price >main {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 
-.eth-price>span {
+.eth-price >main >span {
   margin-right: 10px;
 }
