@@ -7,6 +7,8 @@ import React, { useState, useEffect } from 'react'
 
 import './App.css'
 
+const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000'
+
 export function App() {
   const [address, setAddress] = useState('')
   const [rateUsd, setRateUsd] = useState(null)
@@ -16,8 +18,8 @@ export function App() {
   const [fiatCurrency, setFiatCurrency] = useState('usd')
 
   const onGetRates = () => {
-    fetch(`http://localhost:8000/rates/usd-eth`).then(_ => _.json()).then(setRateUsd)
-    fetch(`http://localhost:8000/rates/eur-eth`).then(_ => _.json()).then(setRateEur)
+    fetch(`${apiUrl}/rates/usd-eth`).then(_ => _.json()).then(setRateUsd)
+    fetch(`${apiUrl}/rates/eur-eth`).then(_ => _.json()).then(setRateEur)
   }
 
   const onSignOut = () => {
@@ -42,8 +44,8 @@ export function App() {
     if (!address)
       return
 
-    fetch(`http://localhost:8000/wallets/${address}/is-old`).then(_ => _.json()).then(setAddressIsOld)
-    fetch(`http://localhost:8000/wallets/${address}/balance?currency=${fiatCurrency}`).then(_ => _.json()).then(setAddressBalance)
+    fetch(`${apiUrl}/wallets/${address}/is-old`).then(_ => _.json()).then(setAddressIsOld)
+    fetch(`${apiUrl}/wallets/${address}/balance?currency=${fiatCurrency}`).then(_ => _.json()).then(setAddressBalance)
   }, [address, fiatCurrency])
 
   return (
