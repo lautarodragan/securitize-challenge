@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react'
 import './App.css'
 
 export function App() {
-  const [address, setAddress] = useState()
+  const [address, setAddress] = useState('')
   const [rateUsd, setRateUsd] = useState('?')
   const [rateEur, setRateEur] = useState('?')
 
@@ -24,7 +24,11 @@ export function App() {
       </header>
       <main>
         <section>
-          <TextField placeholder="0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae" />
+          <TextField
+            placeholder="0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae"
+            onChange={(event) => setAddress(event.currentTarget.value)}
+            value={address}
+          />
         </section>
         <section>
           <h2>Rates</h2>
