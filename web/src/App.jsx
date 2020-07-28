@@ -23,9 +23,12 @@ export function App() {
   }, [])
 
   useEffect(() => {
+    if (!address)
+      return
+
     fetch(`http://localhost:8000/wallets/${address}/is-old`).then(_ => _.json()).then(setAddressIsOld)
-    fetch(`http://localhost:8000/wallets/${address}/balance`).then(_ => _.json()).then(setAddressBalance)
-  }, [address])
+    fetch(`http://localhost:8000/wallets/${address}/balance?currency=${fiatCurrency}`).then(_ => _.json()).then(setAddressBalance)
+  }, [address, fiatCurrency])
 
   return (
     <div className="App">
@@ -35,7 +38,7 @@ export function App() {
       <main>
         <Container>
           { !address && <SignIn onSignIn={setAddress} /> }
-          { addressBalance && addressIsOld && <AccountInfo isOld={addressIsOld.isOld} balance={addressBalance.balance} /> }
+          { addressBalance && addressIsOld && <AccountInfo isOld={addressIsOld.isOld} balance={addressBalance.balance} fiatCurrency={fiatCurrency} /> }
           <EthPrice
             exchangeRate={fiatCurrency === 'usd' ? rateUsd.exchangeRate : rateEur.exchangeRate}
             fiatCurrency={fiatCurrency}
@@ -62,11 +65,11 @@ const SignIn = ({ onSignIn }) => {
   )
 }
 
-const AccountInfo = ({ isOld, balance }) => (
-  <section>
+const AccountInfo = ({ isOld, balance, fiatCurrency }) => (
+  <section className="account-info">
     <h1>Account Info</h1>
     <AccountAge isOld={isOld}/>
-    <section>Account Balance: {balance} USD</section>
+    <section>Account Balance: {balance} <span className="currency">{fiatCurrency}</span></section>
   </section>
 )
 

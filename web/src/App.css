@@ -21,6 +21,10 @@
   color: #61dafb;
 }
 
+.account-info .currency {
+  text-transform: uppercase;
+}
+
 .account-age {
   display: flex;
   flex-direction: row;
