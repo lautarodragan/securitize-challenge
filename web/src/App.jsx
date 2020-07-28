@@ -54,7 +54,14 @@ export function App() {
       <main>
         <Container>
           { !address && <SignIn onSignIn={setAddress} /> }
-          { addressBalance && addressIsOld && <AccountInfo isOld={addressIsOld.isOld} balance={addressBalance.balance} fiatCurrency={fiatCurrency} onSignOut={onSignOut} /> }
+          { addressBalance && addressIsOld &&
+            <AccountInfo
+              isOld={addressIsOld.isOld}
+              balance={addressBalance.balance}
+              fiatCurrency={fiatCurrency}
+              onSignOut={onSignOut}
+            />
+          }
           <EthPrice
             exchangeRate={fiatCurrency === 'usd' ? rateUsd?.exchangeRate : rateEur?.exchangeRate}
             fiatCurrency={fiatCurrency}
