@@ -9,8 +9,8 @@ import './App.css'
 
 export function App() {
   const [address, setAddress] = useState('')
-  const [rateUsd, setRateUsd] = useState('?')
-  const [rateEur, setRateEur] = useState('?')
+  const [rateUsd, setRateUsd] = useState(null)
+  const [rateEur, setRateEur] = useState(null)
   const [addressIsOld, setAddressIsOld] = useState(null)
   const [addressBalance, setAddressBalance] = useState(null)
   const [fiatCurrency, setFiatCurrency] = useState('usd')
@@ -24,6 +24,14 @@ export function App() {
     setAddress('')
     setAddressBalance(null)
     setAddressIsOld(null)
+  }
+
+  const onEditExchangeRate = (currency, exchangeRate) => {
+    console.log('onEditExchangeRate', currency, exchangeRate)
+    if (currency === 'usd')
+      setRateUsd({ exchangeRate })
+    else if (currency === 'eur')
+      setRateEur({ exchangeRate })
   }
 
   useEffect(() => {
@@ -48,9 +56,10 @@ export function App() {
           { !address && <SignIn onSignIn={setAddress} /> }
           { addressBalance && addressIsOld && <AccountInfo isOld={addressIsOld.isOld} balance={addressBalance.balance} fiatCurrency={fiatCurrency} onSignOut={onSignOut} /> }
           <EthPrice
-            exchangeRate={fiatCurrency === 'usd' ? rateUsd.exchangeRate : rateEur.exchangeRate}
+            exchangeRate={fiatCurrency === 'usd' ? rateUsd?.exchangeRate : rateEur?.exchangeRate}
             fiatCurrency={fiatCurrency}
             onFiatCurrencyChange={setFiatCurrency}
+            onEditExchangeRate={onEditExchangeRate}
           />
         </Container>
       </main>
@@ -102,15 +111,21 @@ const AccountAgeYoung = () => (
   </>
 )
 
-const EthPrice = ({ fiatCurrency, onFiatCurrencyChange, exchangeRate }) => {
+const EthPrice = ({ fiatCurrency, onFiatCurrencyChange, exchangeRate, onEditExchangeRate }) => {
   const [edit, setEdit] = useState(false)
+  const [exchangeRateEdit, setExchangeRateEdit] = useState('')
+
+  const onEditExchangeRateWrapper = () => {
+    setEdit(false)
+    onEditExchangeRate(fiatCurrency, exchangeRateEdit)
+  }
 
   const Display = () => (
     <>
       <span>{exchangeRate}</span>
       <Select
-        value={fiatCurrency}
         onChange={(event) => onFiatCurrencyChange(event.target.value)}
+        value={fiatCurrency}
       >
         <MenuItem value='usd'>USD</MenuItem>
         <MenuItem value='eur'>EUR</MenuItem>
@@ -122,16 +137,21 @@ const EthPrice = ({ fiatCurrency, onFiatCurrencyChange, exchangeRate }) => {
   const Edit = () => (
     <>
       <TextField
-        value={exchangeRate}
+        onChange={(event) => setExchangeRateEdit(event.currentTarget.value)}
+        value={exchangeRateEdit}
         InputProps={{
           startAdornment: <InputAdornment position="start">$</InputAdornment>,
         }}
       />
       <span className="currency">{fiatCurrency}</span>
-      <Button onClick={() => setEdit(false)}><DoneRoundedIcon/></Button>
+      <Button onClick={onEditExchangeRateWrapper}><DoneRoundedIcon/></Button>
       <Button onClick={() => setEdit(false)}><CloseIcon/></Button>
     </>
   )
+
+  useEffect(() => {
+    setExchangeRateEdit(exchangeRate)
+  }, [exchangeRate])
 
   return (
     <section className="eth-price">
