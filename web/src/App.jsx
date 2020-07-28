@@ -18,6 +18,12 @@ export function App() {
     fetch(`http://localhost:8000/rates/eur-eth`).then(_ => _.json()).then(setRateEur)
   }
 
+  const onSignOut = () => {
+    setAddress('')
+    setAddressBalance(null)
+    setAddressIsOld(null)
+  }
+
   useEffect(() => {
     onGetRates()
   }, [])
@@ -38,7 +44,7 @@ export function App() {
       <main>
         <Container>
           { !address && <SignIn onSignIn={setAddress} /> }
-          { addressBalance && addressIsOld && <AccountInfo isOld={addressIsOld.isOld} balance={addressBalance.balance} fiatCurrency={fiatCurrency} /> }
+          { addressBalance && addressIsOld && <AccountInfo isOld={addressIsOld.isOld} balance={addressBalance.balance} fiatCurrency={fiatCurrency} onSignOut={onSignOut} /> }
           <EthPrice
             exchangeRate={fiatCurrency === 'usd' ? rateUsd.exchangeRate : rateEur.exchangeRate}
             fiatCurrency={fiatCurrency}
@@ -65,11 +71,12 @@ const SignIn = ({ onSignIn }) => {
   )
 }
 
-const AccountInfo = ({ isOld, balance, fiatCurrency }) => (
+const AccountInfo = ({ isOld, balance, fiatCurrency, onSignOut }) => (
   <section className="account-info">
     <h1>Account Info</h1>
     <AccountAge isOld={isOld}/>
     <section>Account Balance: {balance} <span className="currency">{fiatCurrency}</span></section>
+    <div><Button onClick={onSignOut}>Sign Out</Button></div>
   </section>
 )
 
