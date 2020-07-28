@@ -42,3 +42,8 @@
 .eth-price >main >span {
   margin-right: 10px;
 }
+
+.eth-price .currency {
+  text-transform: uppercase;
+  margin-left: 10px;
+}

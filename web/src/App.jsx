@@ -1,4 +1,4 @@
-import { Button, TextField, Paper, Container, Select, MenuItem } from '@material-ui/core'
+import { Button, TextField, Paper, Container, Select, MenuItem, InputAdornment } from '@material-ui/core'
 import CloseIcon from '@material-ui/icons/Close';
 import DoneRoundedIcon from '@material-ui/icons/DoneRounded'
 import EditIcon from '@material-ui/icons/Edit'
@@ -121,8 +121,13 @@ const EthPrice = ({ fiatCurrency, onFiatCurrencyChange, exchangeRate }) => {
 
   const Edit = () => (
     <>
-      <TextField value={exchangeRate}/>
-      <span>{fiatCurrency}</span>
+      <TextField
+        value={exchangeRate}
+        InputProps={{
+          startAdornment: <InputAdornment position="start">$</InputAdornment>,
+        }}
+      />
+      <span className="currency">{fiatCurrency}</span>
       <Button onClick={() => setEdit(false)}><DoneRoundedIcon/></Button>
       <Button onClick={() => setEdit(false)}><CloseIcon/></Button>
     </>
