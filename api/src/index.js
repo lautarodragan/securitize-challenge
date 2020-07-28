@@ -42,9 +42,9 @@ router.get('/rates/:id', (ctx, next) => {
   const exchangeRate = exchangeRates[id]
 
   ctx.status = 200
-  ctx.body = JSON.stringify({
+  ctx.body = {
     exchangeRate,
-  })
+  }
 
 })
 
@@ -88,12 +88,12 @@ router.get('/wallets/:address/balance', async (ctx, next) => {
   const balance = Big(balanceInWei).times(rate).div(1e9).div(1e9).toFixed(2)
 
   ctx.status = 200
-  ctx.body = JSON.stringify({
+  ctx.body = {
     balanceInWei,
     rate,
     balance,
     currency,
-  })
+  }
 })
 
 router.get('/wallets/:address/is-old', async (ctx, next) => {
