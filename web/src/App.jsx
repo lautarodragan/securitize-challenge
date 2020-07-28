@@ -1,4 +1,4 @@
-import { Button, TextField, Paper, Container } from '@material-ui/core'
+import { Button, TextField, Paper, Container, Select, MenuItem } from '@material-ui/core'
 import DoneRoundedIcon from '@material-ui/icons/DoneRounded'
 import ReportProblemRoundedIcon from '@material-ui/icons/ReportProblemRounded'
 import React, { useState, useEffect } from 'react'
@@ -11,6 +11,7 @@ export function App() {
   const [rateEur, setRateEur] = useState('?')
   const [addressIsOld, setAddressIsOld] = useState(null)
   const [addressBalance, setAddressBalance] = useState(null)
+  const [fiatCurrency, setFiatCurrency] = useState('usd')
 
   const onGetRates = () => {
     fetch(`http://localhost:8000/rates/usd-eth`).then(_ => _.json()).then(setRateUsd)
@@ -35,11 +36,16 @@ export function App() {
         <Container>
           { !address && <SignIn onSignIn={setAddress} /> }
           { addressBalance && addressIsOld && <AccountInfo isOld={addressIsOld.isOld} balance={addressBalance.balance} /> }
-          <Paper>
+          <section>
             <h3>ETH Price</h3>
-            <div>{rateUsd.exchangeRate} USD</div>
-            <div>{rateEur.exchangeRate} EUR</div>
-          </Paper>
+            <div className="eth-price">
+              <span>{fiatCurrency === 'usd' ? rateUsd.exchangeRate : rateEur.exchangeRate}</span>
+              <Select onChange={(event) => setFiatCurrency(event.target.value)} value={fiatCurrency}>
+                <MenuItem value='usd'>USD</MenuItem>
+                <MenuItem value='eur'>EUR</MenuItem>
+              </Select>
+            </div>
+          </section>
         </Container>
       </main>
     </div>
