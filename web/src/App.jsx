@@ -38,9 +38,7 @@ export function App() {
             />
             <Button color="primary" onClick={onLoadAddress}>Load Address</Button>
           </section>
-          <section>
-            <span>{addressIsOld?.isOld ? 'Yes' : 'No'}</span>
-          </section>
+          <AccountAge isOld={addressIsOld?.isOld}/>
           <Paper>
             <h3>ETH Price</h3>
             <div>{rateUsd.exchangeRate} USD</div>
@@ -51,3 +49,21 @@ export function App() {
     </div>
   )
 }
+
+const AccountAge = ({ isOld }) => (
+  <section>
+    { isOld ? <AccountAgeOld/> : <AccountAgeYoung/> }
+  </section>
+)
+
+const AccountAgeOld = () => (
+  <>
+    <span>This account is old.</span>
+  </>
+)
+
+const AccountAgeYoung = () => (
+  <>
+    <span>This account is young.</span>
+  </>
+)
