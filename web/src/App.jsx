@@ -1,4 +1,6 @@
 import { Button, TextField, Paper, Container } from '@material-ui/core'
+import DoneRoundedIcon from '@material-ui/icons/DoneRounded'
+import ReportProblemRoundedIcon from '@material-ui/icons/ReportProblemRounded'
 import React, { useState, useEffect } from 'react'
 
 import './App.css'
@@ -68,19 +70,21 @@ const AccountInfo = ({ isOld, balance }) => (
 )
 
 const AccountAge = ({ isOld }) => (
-  <section>
+  <section className="account-age">
     { isOld ? <AccountAgeOld/> : <AccountAgeYoung/> }
   </section>
 )
 
 const AccountAgeOld = () => (
   <>
+    <ReportProblemRoundedIcon style={{ color: 'orange' }} />
     <span>This account is old.</span>
   </>
 )
 
 const AccountAgeYoung = () => (
   <>
+    <DoneRoundedIcon  style={{ color: 'green' }} />
     <span>This account is young.</span>
   </>
 )
