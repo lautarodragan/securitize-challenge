@@ -31,9 +31,8 @@ export function App() {
       </header>
       <main>
         <Container>
-          <SignIn onSignIn={setAddress} />
-          <AccountAge isOld={addressIsOld?.isOld}/>
-          <section>Account Balance: {addressBalance?.balance} USD</section>
+          { !address && <SignIn onSignIn={setAddress} /> }
+          <AccountInfo isOld={addressIsOld?.isOld} balance={addressBalance?.balance} />
           <Paper>
             <h3>ETH Price</h3>
             <div>{rateUsd.exchangeRate} USD</div>
@@ -59,6 +58,14 @@ const SignIn = ({ onSignIn }) => {
     </section>
   )
 }
+
+const AccountInfo = ({ isOld, balance }) => (
+  <section>
+    <h1>Account Info</h1>
+    <AccountAge isOld={isOld}/>
+    <section>Account Balance: {balance} USD</section>
+  </section>
+)
 
 const AccountAge = ({ isOld }) => (
   <section>
