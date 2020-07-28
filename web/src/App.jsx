@@ -1,5 +1,7 @@
 import { Button, TextField, Paper, Container, Select, MenuItem } from '@material-ui/core'
+import CloseIcon from '@material-ui/icons/Close';
 import DoneRoundedIcon from '@material-ui/icons/DoneRounded'
+import EditIcon from '@material-ui/icons/Edit'
 import ReportProblemRoundedIcon from '@material-ui/icons/ReportProblemRounded'
 import React, { useState, useEffect } from 'react'
 
@@ -100,10 +102,11 @@ const AccountAgeYoung = () => (
   </>
 )
 
-const EthPrice = ({ fiatCurrency, onFiatCurrencyChange, exchangeRate }) => (
-  <section className="eth-price">
-    <h3>ETH Price</h3>
-    <main>
+const EthPrice = ({ fiatCurrency, onFiatCurrencyChange, exchangeRate }) => {
+  const [edit, setEdit] = useState(false)
+
+  const Display = () => (
+    <>
       <span>{exchangeRate}</span>
       <Select
         value={fiatCurrency}
@@ -112,6 +115,26 @@ const EthPrice = ({ fiatCurrency, onFiatCurrencyChange, exchangeRate }) => (
         <MenuItem value='usd'>USD</MenuItem>
         <MenuItem value='eur'>EUR</MenuItem>
       </Select>
-    </main>
-  </section>
-)
+      <Button onClick={() => setEdit(true)}><EditIcon/></Button>
+    </>
+  )
+
+  const Edit = () => (
+    <>
+      <TextField value={exchangeRate}/>
+      <span>{fiatCurrency}</span>
+      <Button onClick={() => setEdit(false)}><DoneRoundedIcon/></Button>
+      <Button onClick={() => setEdit(false)}><CloseIcon/></Button>
+    </>
+  )
+
+  return (
+    <section className="eth-price">
+      <h3>ETH Price</h3>
+      <main>
+        { !edit && <Display/> }
+        { edit && <Edit/> }
+      </main>
+    </section>
+  )
+}
