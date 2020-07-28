@@ -36,16 +36,11 @@ export function App() {
         <Container>
           { !address && <SignIn onSignIn={setAddress} /> }
           { addressBalance && addressIsOld && <AccountInfo isOld={addressIsOld.isOld} balance={addressBalance.balance} /> }
-          <section>
-            <h3>ETH Price</h3>
-            <div className="eth-price">
-              <span>{fiatCurrency === 'usd' ? rateUsd.exchangeRate : rateEur.exchangeRate}</span>
-              <Select onChange={(event) => setFiatCurrency(event.target.value)} value={fiatCurrency}>
-                <MenuItem value='usd'>USD</MenuItem>
-                <MenuItem value='eur'>EUR</MenuItem>
-              </Select>
-            </div>
-          </section>
+          <EthPrice
+            exchangeRate={fiatCurrency === 'usd' ? rateUsd.exchangeRate : rateEur.exchangeRate}
+            fiatCurrency={fiatCurrency}
+            onFiatCurrencyChange={setFiatCurrency}
+          />
         </Container>
       </main>
     </div>
@@ -93,4 +88,17 @@ const AccountAgeYoung = () => (
     <DoneRoundedIcon  style={{ color: 'green' }} />
     <span>This account is young.</span>
   </>
+)
+
+const EthPrice = ({ fiatCurrency, onFiatCurrencyChange, exchangeRate }) => (
+  <section>
+    <h3>ETH Price</h3>
+    <div className="eth-price">
+      <span>{exchangeRate}</span>
+      <Select onChange={(event) => onFiatCurrencyChange(event.target.value)} value={fiatCurrency}>
+        <MenuItem value='usd'>USD</MenuItem>
+        <MenuItem value='eur'>EUR</MenuItem>
+      </Select>
+    </div>
+  </section>
 )
