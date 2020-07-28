@@ -145,7 +145,14 @@ const EthPrice = ({ fiatCurrency, onFiatCurrencyChange, exchangeRate, onEditExch
       <h3>ETH Price</h3>
       <main>
         { !edit && <Display/> }
-        { edit && <EthPriceEdit fiatCurrency={fiatCurrency} initialExchangeRate={exchangeRate} onAccept={onEditExchangeRateWrapper} onCancel={() => setEdit(false)} /> }
+        { edit &&
+          <EthPriceEdit
+            fiatCurrency={fiatCurrency}
+            initialExchangeRate={exchangeRate}
+            onAccept={onEditExchangeRateWrapper}
+            onCancel={() => setEdit(false)}
+          />
+        }
       </main>
     </section>
   )
