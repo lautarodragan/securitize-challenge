@@ -1,4 +1,4 @@
-import { Button, TextField, Paper, Container, Select, MenuItem, InputAdornment } from '@material-ui/core'
+import { Button, TextField, Container, Select, MenuItem, InputAdornment } from '@material-ui/core'
 import CloseIcon from '@material-ui/icons/Close';
 import DoneRoundedIcon from '@material-ui/icons/DoneRounded'
 import EditIcon from '@material-ui/icons/Edit'
