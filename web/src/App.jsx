@@ -7,10 +7,15 @@ export function App() {
   const [address, setAddress] = useState('')
   const [rateUsd, setRateUsd] = useState('?')
   const [rateEur, setRateEur] = useState('?')
+  const [addressIsOld, setAddressIsOld] = useState(null)
 
   const onGetRates = () => {
     fetch(`http://localhost:8000/rates/usd-eth`).then(_ => _.json()).then(setRateUsd)
     fetch(`http://localhost:8000/rates/eur-eth`).then(_ => _.json()).then(setRateEur)
+  }
+
+  const onGetAddressIsOld = () => {
+    fetch(`http://localhost:8000/wallets/${address}/is-old`).then(_ => _.json()).then(setAddressIsOld)
   }
 
   useEffect(() => {
@@ -29,6 +34,8 @@ export function App() {
             onChange={(event) => setAddress(event.currentTarget.value)}
             value={address}
           />
+          <Button color="primary" onClick={onGetAddressIsOld}>Is Old?</Button>
+          <span>{addressIsOld?.isOld ? 'Yes' : 'No'}</span>
         </section>
         <section>
           <h2>Rates</h2>
