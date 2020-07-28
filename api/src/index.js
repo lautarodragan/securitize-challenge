@@ -1,5 +1,3 @@
-const apiKey = 'NSZCD6S4TKVWRS13PMQFMVTNP6H7NAGHUY'
-
 import Big from 'big.js'
 import cors from '@koa/cors'
 import Koa from 'koa'
@@ -9,6 +7,13 @@ import luxon from 'luxon'
 
 import { Etherscan } from './etherscan.js'
 
+if (!process.env.API_KEY) {
+  console.log('Error: API_KEY environment variable not set.')
+  process.exit()
+}
+
+console.log('Etherscan API Key:', process.env.API_KEY)
+
 const router = new KoaRouter()
 
 const ratePairUsdEth = 'usd-eth'
@@ -16,7 +21,7 @@ const ratePairEurEth = 'eur-eth'
 
 const ratePairs = [ratePairUsdEth, ratePairEurEth]
 
-const etherscan = Etherscan({ apiKey })
+const etherscan = Etherscan({ apiKey: process.env.API_KEY })
 
 const exchangeRates = {
   [ratePairUsdEth]: 324.35,
