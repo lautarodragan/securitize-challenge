@@ -34,6 +34,15 @@ export function App() {
       setRateUsd({ exchangeRate })
     else if (currency === 'eur')
       setRateEur({ exchangeRate })
+    fetch(`${apiUrl}/rates/${currency}-eth`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        rate: exchangeRate,
+      }),
+      headers: {
+        'content-type': 'application/json; charset=utf-8',
+      },
+    }).then(_ => _.text()).then(console.log)
   }
 
   useEffect(() => {
