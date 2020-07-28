@@ -95,7 +95,10 @@ const EthPrice = ({ fiatCurrency, onFiatCurrencyChange, exchangeRate }) => (
     <h3>ETH Price</h3>
     <main>
       <span>{exchangeRate}</span>
-      <Select onChange={(event) => onFiatCurrencyChange(event.target.value)} value={fiatCurrency}>
+      <Select
+        value={fiatCurrency}
+        onChange={(event) => onFiatCurrencyChange(event.target.value)}
+      >
         <MenuItem value='usd'>USD</MenuItem>
         <MenuItem value='eur'>EUR</MenuItem>
       </Select>
